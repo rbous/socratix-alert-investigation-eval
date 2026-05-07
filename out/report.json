@@ -1,0 +1,305 @@
+{
+  "agent": "baseline_rules_v1",
+  "case_count": 12,
+  "metrics_escalate": {
+    "precision": 1.0,
+    "recall": 0.8,
+    "f1": 0.888888888888889,
+    "tp": 4.0,
+    "fp": 0.0,
+    "fn": 1.0
+  },
+  "cases": [
+    {
+      "alert_id": "A-001",
+      "scenario": "Card testing burst on new device",
+      "expected_decision": "escalate",
+      "predicted": {
+        "alert_id": "A-001",
+        "decision": "escalate",
+        "risk_score": 0.5,
+        "risk_band": "medium",
+        "rationale": [
+          "Pattern match: card testing + velocity spike → escalate.",
+          "New device",
+          "Velocity spike (x1.0)",
+          "Card-testing pattern"
+        ],
+        "evidence_used": [
+          "device_new",
+          "velocity_spike",
+          "card_testing_pattern"
+        ]
+      },
+      "signals": {
+        "card_testing_pattern": true,
+        "device_new": true,
+        "velocity_spike": 1.0,
+        "amount_usd": 12
+      }
+    },
+    {
+      "alert_id": "A-002",
+      "scenario": "Login anomaly + geo mismatch (possible ATO)",
+      "expected_decision": "escalate",
+      "predicted": {
+        "alert_id": "A-002",
+        "decision": "escalate",
+        "risk_score": 0.52,
+        "risk_band": "medium",
+        "rationale": [
+          "Pattern match: ATO-style login anomaly (fails + geo mismatch + new device) → escalate.",
+          "New device",
+          "IP geo mismatch",
+          "Multiple failed logins"
+        ],
+        "evidence_used": [
+          "device_new",
+          "ip_geo_mismatch",
+          "multiple_failed_logins"
+        ]
+      },
+      "signals": {
+        "multiple_failed_logins": true,
+        "ip_geo_mismatch": true,
+        "device_new": true,
+        "amount_usd": 0
+      }
+    },
+    {
+      "alert_id": "A-003",
+      "scenario": "High amount, known device, no other risk",
+      "expected_decision": "review",
+      "predicted": {
+        "alert_id": "A-003",
+        "decision": "close",
+        "risk_score": 0.14,
+        "risk_band": "low",
+        "rationale": [
+          "High amount ($2,600)"
+        ],
+        "evidence_used": [
+          "amount_usd"
+        ]
+      },
+      "signals": {
+        "amount_usd": 2600,
+        "device_new": false,
+        "ip_geo_mismatch": false
+      }
+    },
+    {
+      "alert_id": "A-004",
+      "scenario": "Chargeback history + medium amount",
+      "expected_decision": "escalate",
+      "predicted": {
+        "alert_id": "A-004",
+        "decision": "escalate",
+        "risk_score": 0.24,
+        "risk_band": "low",
+        "rationale": [
+          "Pattern match: chargeback history + meaningful amount → escalate.",
+          "Chargeback history",
+          "Medium amount ($780)"
+        ],
+        "evidence_used": [
+          "chargeback_history",
+          "amount_usd"
+        ]
+      },
+      "signals": {
+        "chargeback_history": true,
+        "amount_usd": 780,
+        "device_new": false
+      }
+    },
+    {
+      "alert_id": "A-005",
+      "scenario": "Synthetic ID indicators on fresh account",
+      "expected_decision": "escalate",
+      "predicted": {
+        "alert_id": "A-005",
+        "decision": "escalate",
+        "risk_score": 0.28,
+        "risk_band": "low",
+        "rationale": [
+          "Pattern match: synthetic ID indicators on fresh identity → escalate.",
+          "Low email age",
+          "Synthetic identity signal"
+        ],
+        "evidence_used": [
+          "email_age_low",
+          "synthetic_id_signal"
+        ]
+      },
+      "signals": {
+        "synthetic_id_signal": true,
+        "email_age_low": true,
+        "amount_usd": 110
+      }
+    },
+    {
+      "alert_id": "A-006",
+      "scenario": "Low-risk repeat purchase",
+      "expected_decision": "close",
+      "predicted": {
+        "alert_id": "A-006",
+        "decision": "close",
+        "risk_score": 0.0,
+        "risk_band": "low",
+        "rationale": [
+          "No strong risk signals triggered in baseline rules."
+        ],
+        "evidence_used": []
+      },
+      "signals": {
+        "amount_usd": 45,
+        "device_new": false,
+        "ip_geo_mismatch": false,
+        "velocity_spike": 0
+      }
+    },
+    {
+      "alert_id": "A-007",
+      "scenario": "High-risk merchant + geo mismatch",
+      "expected_decision": "review",
+      "predicted": {
+        "alert_id": "A-007",
+        "decision": "close",
+        "risk_score": 0.32,
+        "risk_band": "low",
+        "rationale": [
+          "IP geo mismatch",
+          "High-risk merchant/category"
+        ],
+        "evidence_used": [
+          "ip_geo_mismatch",
+          "merchant_risk_high"
+        ]
+      },
+      "signals": {
+        "merchant_risk_high": true,
+        "ip_geo_mismatch": true,
+        "amount_usd": 320
+      }
+    },
+    {
+      "alert_id": "A-008",
+      "scenario": "Velocity spike but tiny amounts (could be benign)",
+      "expected_decision": "review",
+      "predicted": {
+        "alert_id": "A-008",
+        "decision": "close",
+        "risk_score": 0.144,
+        "risk_band": "low",
+        "rationale": [
+          "Velocity spike (x0.8)"
+        ],
+        "evidence_used": [
+          "velocity_spike"
+        ]
+      },
+      "signals": {
+        "velocity_spike": 0.8,
+        "amount_usd": 8,
+        "device_new": false
+      }
+    },
+    {
+      "alert_id": "A-009",
+      "scenario": "Possible mule behavior + new device + medium amount",
+      "expected_decision": "escalate",
+      "predicted": {
+        "alert_id": "A-009",
+        "decision": "review",
+        "risk_score": 0.38,
+        "risk_band": "medium",
+        "rationale": [
+          "New device",
+          "Possible mule activity",
+          "Medium amount ($650)"
+        ],
+        "evidence_used": [
+          "device_new",
+          "mule_activity_signal",
+          "amount_usd"
+        ]
+      },
+      "signals": {
+        "mule_activity_signal": true,
+        "device_new": true,
+        "amount_usd": 650
+      }
+    },
+    {
+      "alert_id": "A-010",
+      "scenario": "Geo mismatch only, low amount",
+      "expected_decision": "review",
+      "predicted": {
+        "alert_id": "A-010",
+        "decision": "close",
+        "risk_score": 0.2,
+        "risk_band": "low",
+        "rationale": [
+          "IP geo mismatch"
+        ],
+        "evidence_used": [
+          "ip_geo_mismatch"
+        ]
+      },
+      "signals": {
+        "ip_geo_mismatch": true,
+        "amount_usd": 60,
+        "device_new": false
+      }
+    },
+    {
+      "alert_id": "A-011",
+      "scenario": "New device only, low amount",
+      "expected_decision": "review",
+      "predicted": {
+        "alert_id": "A-011",
+        "decision": "close",
+        "risk_score": 0.22,
+        "risk_band": "low",
+        "rationale": [
+          "New device"
+        ],
+        "evidence_used": [
+          "device_new"
+        ]
+      },
+      "signals": {
+        "device_new": true,
+        "amount_usd": 35
+      }
+    },
+    {
+      "alert_id": "A-012",
+      "scenario": "Multiple weak signals, no single smoking gun",
+      "expected_decision": "review",
+      "predicted": {
+        "alert_id": "A-012",
+        "decision": "review",
+        "risk_score": 0.35,
+        "risk_band": "medium",
+        "rationale": [
+          "Velocity spike (x0.5)",
+          "Low email age",
+          "High-risk merchant/category"
+        ],
+        "evidence_used": [
+          "velocity_spike",
+          "email_age_low",
+          "merchant_risk_high"
+        ]
+      },
+      "signals": {
+        "email_age_low": true,
+        "velocity_spike": 0.5,
+        "merchant_risk_high": true,
+        "amount_usd": 140
+      }
+    }
+  ]
+}
