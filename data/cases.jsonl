@@ -1,0 +1,12 @@
+{"alert_id":"A-001","scenario":"Card testing burst on new device","signals":{"card_testing_pattern":true,"device_new":true,"velocity_spike":1.0,"amount_usd":12},"expected_decision":"escalate"}
+{"alert_id":"A-002","scenario":"Login anomaly + geo mismatch (possible ATO)","signals":{"multiple_failed_logins":true,"ip_geo_mismatch":true,"device_new":true,"amount_usd":0},"expected_decision":"escalate"}
+{"alert_id":"A-003","scenario":"High amount, known device, no other risk","signals":{"amount_usd":2600,"device_new":false,"ip_geo_mismatch":false},"expected_decision":"review"}
+{"alert_id":"A-004","scenario":"Chargeback history + medium amount","signals":{"chargeback_history":true,"amount_usd":780,"device_new":false},"expected_decision":"escalate"}
+{"alert_id":"A-005","scenario":"Synthetic ID indicators on fresh account","signals":{"synthetic_id_signal":true,"email_age_low":true,"amount_usd":110},"expected_decision":"escalate"}
+{"alert_id":"A-006","scenario":"Low-risk repeat purchase","signals":{"amount_usd":45,"device_new":false,"ip_geo_mismatch":false,"velocity_spike":0},"expected_decision":"close"}
+{"alert_id":"A-007","scenario":"High-risk merchant + geo mismatch","signals":{"merchant_risk_high":true,"ip_geo_mismatch":true,"amount_usd":320},"expected_decision":"review"}
+{"alert_id":"A-008","scenario":"Velocity spike but tiny amounts (could be benign)","signals":{"velocity_spike":0.8,"amount_usd":8,"device_new":false},"expected_decision":"review"}
+{"alert_id":"A-009","scenario":"Possible mule behavior + new device + medium amount","signals":{"mule_activity_signal":true,"device_new":true,"amount_usd":650},"expected_decision":"escalate"}
+{"alert_id":"A-010","scenario":"Geo mismatch only, low amount","signals":{"ip_geo_mismatch":true,"amount_usd":60,"device_new":false},"expected_decision":"review"}
+{"alert_id":"A-011","scenario":"New device only, low amount","signals":{"device_new":true,"amount_usd":35},"expected_decision":"review"}
+{"alert_id":"A-012","scenario":"Multiple weak signals, no single smoking gun","signals":{"email_age_low":true,"velocity_spike":0.5,"merchant_risk_high":true,"amount_usd":140},"expected_decision":"review"}
